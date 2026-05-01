@@ -2,6 +2,27 @@
 (function(){
   'use strict';
 
+
+  // ---------- Remote GitHub-hosted images (no local binary dependency) ----------
+  // Replace these URLs with your own GitHub raw/CDN links.
+  const IMAGE_URLS = {
+    hero: 'https://raw.githubusercontent.com/<owner>/<repo>/<branch>/hero.jpg',
+    kids: 'https://raw.githubusercontent.com/<owner>/<repo>/<branch>/kids.jpg',
+    adults: 'https://raw.githubusercontent.com/<owner>/<repo>/<branch>/adults.jpg',
+    advanced: 'https://raw.githubusercontent.com/<owner>/<repo>/<branch>/advanced.jpg',
+    heels: 'https://raw.githubusercontent.com/<owner>/<repo>/<branch>/heels.jpg',
+    studio: 'https://raw.githubusercontent.com/<owner>/<repo>/<branch>/studio.jpg',
+    cta: 'https://raw.githubusercontent.com/<owner>/<repo>/<branch>/cta.jpg'
+  };
+
+  document.querySelectorAll('[data-bg-key]').forEach((el) => {
+    const key = el.getAttribute('data-bg-key');
+    const fallback = el.getAttribute('data-bg-fallback');
+    const src = IMAGE_URLS[key];
+    const resolved = (src && !src.includes('<owner>')) ? src : fallback;
+    if (resolved) el.style.backgroundImage = `url('${resolved}')`;
+  });
+
   // ---------- Sticky nav state ----------
   const nav = document.getElementById('nav');
   const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
